@@ -1,0 +1,49 @@
+wordpress:
+  replicaCount: 1
+  storageSize: 2Gi
+  image:
+    repository: wordpress
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 80
+
+  # 1. Resource Limits & Requests
+  resources:
+    requests:
+      cpu: 100m       # 100 milliCPUs (0.1 CPU core)
+      memory: 128Mi   # 128 Megabytes RAM
+    limits:
+      cpu: 500m       # Max 0.5 CPU core
+      memory: 512Mi   # Max 512 Megabytes RAM
+
+  # 2. Horizontal Pod Autoscaler Configuration
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 50
+
+mysql:
+  storageSize: 2Gi
+  image:
+    repository: mysql
+    tag: "8.0"
+  resources:
+    requests:
+      cpu: 150m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+dbSecret:
+  rootPassword: rootpassword123
+  userPassword: wordpresspassword123
+  database: wordpress
+  user: wordpress
+
+ingress:
+  enabled: true
+  className: nginx
+  host: 9999.xspark.qzz.io
