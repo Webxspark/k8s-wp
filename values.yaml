@@ -45,5 +45,5 @@ dbSecret:
 
 ingress:
   enabled: true
-  className: nginx
+  className: traefik
   host: 9999.xspark.qzz.io
